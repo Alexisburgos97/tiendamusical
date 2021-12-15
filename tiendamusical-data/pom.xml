@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>tiendamusical</artifactId>
-    <groupId>com.devpredator</groupId>
+    <groupId>com.aburgos</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
@@ -25,7 +25,7 @@
     
     <dependency>
    		<artifactId>tiendamusical-entities</artifactId>
-    	<groupId>com.devpredator</groupId>
+    	<groupId>com.aburgos</groupId>
     	<version>0.0.1-SNAPSHOT</version>
     </dependency>
     
@@ -71,7 +71,25 @@
 	    <artifactId>hibernate-jpa-2.1-api</artifactId>
 	    <version>${hibernate-jpa-version}</version>
 	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+	<dependency>
+	    <groupId>org.apache.logging.log4j</groupId>
+	    <artifactId>log4j-core</artifactId>
+	    <version>${log4j-version}</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+	<dependency>
+	    <groupId>org.apache.logging.log4j</groupId>
+	    <artifactId>log4j-api</artifactId>
+	    <version>${log4j-version}</version>
+	</dependency>
+		
+	
   </dependencies>
+  
+  
 
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->

@@ -1,0 +1,18 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+ 	  xmlns:p="http://primefaces.org/ui"
+ 	  xmlns:ui="http://java.sun.com/jsf/facelets"
+ 	  xmlns:pe="http://primefaces.org/ui/extensions">
+ 	  
+ 	  <h:outputStylesheet library="css" name="steps.css"></h:outputStylesheet>
+      
+      <div class="card" style="width:100%; margin: 0px auto;">
+	    <p:steps id="stepCompra" style="margin-bottom:20px;" activeIndex="#{sessionBean.paso}" rendered="true">
+	        <p:menuitem value="Producto seleccionado"/>
+	        <p:menuitem value="Pago"/>
+	        <p:menuitem value="Confirmación"/>
+	    </p:steps>
+	  </div>
+      
+</ui:composition>

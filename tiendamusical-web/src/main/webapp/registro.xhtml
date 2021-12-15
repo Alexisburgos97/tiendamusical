@@ -1,0 +1,64 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+ 	  xmlns:p="http://primefaces.org/ui"
+ 	  xmlns:ui="http://java.sun.com/jsf/facelets">
+      
+      
+      <h:head>
+      	<meta name="viewport" content="width=device-width, user-scalable=no"></meta>
+      	<h:outputStylesheet library="css" name="login.css"></h:outputStylesheet>
+      </h:head>
+      
+      <h:body style="background-color: black">
+      	
+      		<h:form id="formRegistro" style="text-aling:center">
+      		
+      			<ui:include src="/pages/commons/loading.xhtml"></ui:include>
+      		
+      			<p:growl id="growl" showDetail="true" skipDetailIfEqualsSummary="true"/>  
+      		
+      			<p:panel id="pnlRegistro" header="Registro de usuario" style="text-align: center; width:80%; margin: 0px auto;">
+      			
+      				<!--  <p:graphicImage name="imagenes/fondo_musica.png" width="20%"/>-->
+      			
+      				<p:panelGrid id="pnlGridRegistro" columns="1" columnClasses="ui-g-12 ui-md-12" layout="grid" >
+      				
+      					<p:outputLabel value="Nombre: " styleClass="colorText" for="txtNombre"  ></p:outputLabel>
+	      				<p:inputText id="txtNombre" value="#{registroController.persona.nombre}" required="true" requiredMessage="El Nombre es requerido" style="width:50%;"></p:inputText>
+	      				
+	      				<p:outputLabel value="Primer Apellido: " styleClass="colorText" for="txtPrimerApellido"  ></p:outputLabel>
+	      				<p:inputText id="txtPrimerApellido" value="#{registroController.persona.primerApellido}" required="true" requiredMessage="El Primer Apellido es requerido" style="width:50%;"></p:inputText>
+	      				
+	      				<p:outputLabel value="Segundo Apellido: " styleClass="colorText" for="txtSegundoApellido"  ></p:outputLabel>
+	      				<p:inputText id="txtSegundoApellido" value="#{registroController.persona.segundoApellido}" required="true" requiredMessage="El Segundo Apellido es requerido" style="width:50%;"></p:inputText>
+	      				
+	      				<p:outputLabel value="Email: " styleClass="colorText" for="txtEmail"  ></p:outputLabel>
+	      				<p:inputText id="txtEmail" value="#{registroController.persona.email}" required="true" requiredMessage="El Email es requerido" style="width:50%;" validatorMessage="El formato del Email es incorrecto">
+	      					<!-- :::::::: REGEX DE PATRON DE REGISTRO PARA VALIDAR EMAIL ::::::::::: -->
+							 <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+	      				</p:inputText>
+      			
+	      				<p:outputLabel value="Usuario: " styleClass="colorText" for="txtUsuario"  ></p:outputLabel>
+	      				<p:inputText id="txtUsuario" value="#{registroController.persona.usuario}" required="true" requiredMessage="El usuario es requerido" style="width:50%;"></p:inputText>
+	      				
+	      				<p:outputLabel value="Contraseña: " styleClass="colorText" for="txtPassword"  ></p:outputLabel>
+	      				<p:password id="txtPassword" value="#{registroController.persona.password}" required="true" requiredMessage="La contraseña es requerida" style="width:50%;"></p:password>      				
+	      			
+	      			</p:panelGrid>
+	      			
+	      			<br />
+	      			
+	      			<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12,ui-g-12 ui-md-12" layout="grid">
+	      			
+	      				<p:commandButton value="Registrarse" action="#{registroController.guardarRegistro}" update="pnlGridRegistro, growl" style="width:30%;"></p:commandButton>
+	      				<p:commandButton value="Cancelar" action="#{pagesController.redireccionarPagina('/login.xhtml')}" immediate="true" style="background-color:red; width:30%;"></p:commandButton>
+	      				
+	      			</p:panelGrid>
+	      			
+      			</p:panel>      		
+      		</h:form>
+      	
+      </h:body>
+      
+</html>

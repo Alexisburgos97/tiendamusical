@@ -1,0 +1,165 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+ 	  xmlns:p="http://primefaces.org/ui"
+ 	  xmlns:ui="http://java.sun.com/jsf/facelets">
+      
+      
+      <h:head>
+      	<ui:include src="/pages/commons/scripts.xhtml"></ui:include>
+      	<style>
+      		body .ui-panelgrid .ui-panelgrid-cell{
+      			background-color: white;
+      		} 
+      	</style>
+      </h:head>
+      
+      <h:body style="background-color: black">
+      	<div class="ui-fluid">
+      		<h:form id="formArtistas">
+      			
+      			<ui:include src="/pages/commons/loading.xhtml"></ui:include>
+      		
+      			<p:growl id="messages" showSummary="true" showDetail="true" skipDetailIfEqualsSummary="true"></p:growl>
+      			
+      			<ui:include src="/pages/commons/navbar.xhtml"></ui:include>
+      		
+      			<div class="p-grid sample-layout">
+      			
+      			 	<ui:include src="/pages/commons/header.xhtml"></ui:include>
+      			 	
+      			 	<div class="p-col-12 p-md-10 p-col-nogutter">
+      			 		<div class="p-grid">
+      			 			<div class="p-col-12">
+      			 				<div class="p-grid">
+      			 					<div class="p-col-10" style="margin:0px auto;">
+      			 					
+      			 						<div class="p-col-2">
+		      			 					<p:commandButton value="Agregar"  onclick="PF('dlgArtistas').show()" action="#{adminArtistasController.limpiarComponentes}" immediate="true" update="formUpdateArtista:pnlArtistas" />
+		      			 				</div>
+      			 			
+		      			 				<p:dataTable id="tblArtistas" rows="20" paginator="true" emptyMessage="No se encontraron registros de artistas.."
+		      			 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		                     				currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+		                     				rowsPerPageTemplate="20,50,100" var="artista" value="#{adminArtistasController.artistas}" filteredValue="#{adminArtistasController.artistasFiltrados}" paginatorPosition="bottom" >
+		      			 					
+		      			 					
+		      			 					<f:facet name="header"> Listado de Artistas </f:facet>
+		      			 					
+		      			 					<p:column headerText="Imagen">
+		      			 					
+		      			 						<p:graphicImage name="imagenes/artistas/#{artista.imagen}" width="100%"></p:graphicImage>
+		      			 						
+		      			 					</p:column>
+		      			 					
+		      			 					<p:column headerText="Nombre" filterBy="#{artista.nombre}" filterMatchMode="contains">
+		      			 					
+		      			 						<p:outputLabel value="#{artista.nombre}"></p:outputLabel>
+		      			 						
+		      			 					</p:column>
+		      			 				
+		      			 					<p:column headerText="Nacionalidad">
+		      			 					
+		      			 						<p:outputLabel value="#{artista.nacionalidad.descripcion}"></p:outputLabel>
+		      			 						
+		      			 					</p:column>
+		      			 					
+		      			 					<p:column headerText="Genero">
+		      			 					
+		      			 						<p:outputLabel value="#{artista.subGenero.genero.descripcion}"></p:outputLabel>
+		      			 						
+		      			 					</p:column>
+		      			 					
+		      			 					<p:column headerText="SubGenero" >
+		      			 					
+		      			 						<p:outputLabel value="#{artista.subGenero.descripcion}"></p:outputLabel>
+		      			 						
+		      			 					</p:column>
+		      			 					 
+		      			 					<p:column headerText="Estatus" filterBy="#{artista.estatus}" filterMatchMode="contains">
+		      			 					
+		      			 						<p:outputLabel value="Habilitado" rendered="#{artista.estatus}"></p:outputLabel>
+		      			 						<p:outputLabel value="No habilitado" rendered="#{!artista.estatus}"></p:outputLabel>
+		      			 						
+		      			 					</p:column>
+		      			 					
+		      			 					<p:column headerText="Actualizar">
+		      			 					
+		      			 						<p:commandButton  icon="pi pi-pencil" style="background-color:green;" immediate="true"
+		      			 										  action="#{adminArtistasController.cargarArtista(artista)}"  oncomplete="PF('dlgArtistas').show()" update="formUpdateArtista:pnlArtistas" ></p:commandButton>
+		      			 						
+		      			 					</p:column>
+		      			 					
+		      			 				</p:dataTable>
+		      			 				
+		      			 				
+      			 				  		  
+      			 					</div>
+      			 				</div>
+      			 			</div>
+      			 		</div>
+      			 	</div>
+      			 	
+					<ui:include src="/pages/commons/footer.xhtml"></ui:include>
+      			 	
+      			</div>
+      		</h:form>
+      		
+      		<p:dialog header="Agregar artista" id="dlgArtista" widgetVar="dlgArtistas" showEffect="fade" modal="true" responsive="true" resizable="false" width="50%" height="500">
+      			<h:form id="formUpdateArtista">
+      			
+											<p:panelGrid id="pnlArtistas" columns="1" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-g-12" >
+												
+												<p:outputLabel id="lblNombre" value="Nombre: " for="txtNombre" ></p:outputLabel>
+												<p:inputText id="txtNombre" required="true" requiredMessage="El nombre del artista es requerido" value="#{adminArtistasController.artista.nombre}"></p:inputText>
+												
+												<p:outputLabel id="lblImagen" value="Imagen: " ></p:outputLabel>
+												<p:fileUpload mode="advanced" sizeLimit="102400" 
+													allowTypes="/(\.|\/)(gif|jpe?g|png)$/" invalidSizeMessage="Maximum file size allowed is 100 KB"
+	                      							invalidFileMessage="only gif | jpg | jpeg | png is allowed"  auto="true"
+                      								listener="#{adminArtistasController.handleFileUpload}" dragDropSupport="true" label="Buscar" update="opTextImage" immediate="true" />
+                      							
+                      							<p:outputPanel id="opTextImage">
+                      								<p:outputLabel id="lblTextImage" value="Se ha cargado la imagen #{adminArtistasController.uploadedFile.fileName} " rendered="#{adminArtistasController.uploadedFile != null}"></p:outputLabel>
+                      							</p:outputPanel>
+                      							
+                      							<p:outputLabel id="lblNacionalidad" value="Nacionalidad: " for="cboNacionalidad" ></p:outputLabel>
+												<p:selectOneMenu id="cboNacionalidad" required="true" requiredMessage="La Nacionalidad del artista es requerido" value="#{adminArtistasController.artista.nacionalidad.idNacionalidad}">
+													<f:selectItem itemValue="" itemLabel="Seleccione"></f:selectItem>
+													<f:selectItems var="nacionalidad" value="#{adminArtistasController.nacionalidades}"
+																   itemValue="#{nacionalidad.idNacionalidad}" itemLabel="#{nacionalidad.descripcion}"></f:selectItems>
+												</p:selectOneMenu>
+												
+												<p:outputLabel id="lblGenero" value="Genero: " for="cboGenero" ></p:outputLabel>
+												<p:selectOneMenu id="cboGenero" required="true" requiredMessage="El Genero del artista es requerido" value="#{adminArtistasController.artista.subGenero.genero.idGenero}">
+													<f:selectItem itemValue="" itemLabel="Seleccione"></f:selectItem>
+													<f:selectItems var="genero" value="#{adminArtistasController.generos}"
+																   itemValue="#{genero.idGenero}" itemLabel="#{genero.descripcion}"></f:selectItems>	
+																   <p:ajax listener="#{adminArtistasController.consultarSubGeneroPorGenero}" update="cboSubGenero"></p:ajax>
+												</p:selectOneMenu>
+												
+												<p:outputLabel id="lblSubGenero" value="SubGenero: " for="cboSubGenero" ></p:outputLabel>
+												<p:selectOneMenu id="cboSubGenero" required="true" requiredMessage="El SubGenero del artista es requerido" value="#{adminArtistasController.artista.subGenero.idSubGenero}">
+													<f:selectItem itemValue="" itemLabel="Seleccione"></f:selectItem>	
+													<f:selectItems var="subGenero" value="#{adminArtistasController.subGeneros}"
+																   itemValue="#{subGenero.idSubGenero}" itemLabel="#{subGenero.descripcion}"></f:selectItems>
+												</p:selectOneMenu>
+												
+												<p:outputLabel id="lblEstatus" value="Estatus: " rendered="#{adminArtistasController.artista.idArtista != null}" ></p:outputLabel>
+												<p:inputSwitch id="inputEstatus" value="#{adminArtistasController.artista.estatus}" rendered="#{adminArtistasController.artista.idArtista != null}" ></p:inputSwitch>
+												
+											</p:panelGrid>
+											
+											<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-g-6,ui-g-6" >
+												<p:commandButton value="Guardar" action="#{adminArtistasController.guardarArtista}"  update="formArtistas:messages, formUpdateArtista:pnlArtistas, formArtistas:tblArtistas"></p:commandButton>
+												<p:commandButton value="Cancelar" style="background-color:red;" onclick="PF('dlgArtistas').hide()"></p:commandButton>
+											</p:panelGrid>
+											
+											<!-- <p:ajax event="close" update="dlgAlbum" resetValues="true"></p:ajax> -->
+				
+      			</h:form>
+      		</p:dialog>
+      	</div>
+      </h:body>
+
+</html>

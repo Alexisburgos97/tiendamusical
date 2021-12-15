@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+ 	  xmlns:p="http://primefaces.org/ui"
+ 	  xmlns:ui="http://java.sun.com/jsf/facelets">
+      
+      <div class="p-grid">
+      
+      	<div class="p-col">
+      		<div class="ui-inputgroup" style="display:block; text-align:center;">
+      			<p:inputText id="txtBuscador" style="width:90%; margin-bottom:20px;" value="#{homeController.filtro}" placeholder="Ingresa Artista o Album, etc..">
+      				<p:ajax event="keyup" listener="#{homeController.consultarAlbumsArtistaPorFiltro}" update="pnlResultados"></p:ajax>
+      			</p:inputText>
+      		</div>
+      		
+      		<div class="ui-inputgroup">
+      			<p:panel id="pnlResultados" style="width:90%; margin:0px auto; border:none;" >
+      				<p:dataView id="dataViewResultados" var="artistaAlbumDTO" value="#{homeController.artistaAlbumDTO}" rows="10" paginator="true"
+                    	paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                    	gridIcon="pi pi-th-large" listIcon="pi pi-bars" rendered="#{not empty homeController.artistaAlbumDTO}"
+                    	paginatorPosition="bottom" rowsPerPageTemplate="10, 30, 50"
+                    	layout="grid" gridRowStyleClass="p-lg-6 p-xl-4" flex="true" style="width:100%; background-color:black; margin: 0px auto;">
+
+			            <p:dataViewGridItem columns="4">
+			                <div class="product-grid-item card border-1">
+			                    <div class="product-grid-item-top" style="color: white; text-align: center; font-weight: bold;">
+			                        <div>
+			                            <i class="pi pi-tag product-category-icon"/>
+			                            <span class="product-category" >#{artistaAlbumDTO.album.nombre}</span>
+			                        </div>
+			                        <span class="product-badge status-#{product.inventoryStatus.name().toLowerCase()}">#{product.inventoryStatus.text}</span>
+			                    </div>
+			                    <div class="product-grid-item-content" style="text-align: center;" >
+			                    	<p:commandLink action="#{homeController.verDetalleAlbum(artistaAlbumDTO)}">
+			                        	<p:graphicImage name="imagenes/albums/#{artistaAlbumDTO.artista.imagen}" style="height:120px;" />
+			                        </p:commandLink>
+			                        
+			                        <div class="product-name">#{artistaAlbumDTO.artista.nombre}</div>
+			                        <div class="product-description">#{product.description}</div>
+			                        <p:rating readonly="true" value="#{product.rating}"/>
+			                    </div>
+			                    <div class="product-grid-item-bottom" style="text-align: center;">
+			                        <h:outputText value="#{artistaAlbumDTO.album.valor}" styleClass="product-price">
+			                            <f:convertNumber currencySymbol="$" currencyCode="ARS" type="currency"/>
+			                        </h:outputText>
+			                        <p:commandButton icon="pi pi-shopping-cart" action="#{homeController.agregarAlbumCarrito(artistaAlbumDTO)}" update="formDashboard:btnShop"></p:commandButton>			                    </div>
+			                </div>
+			            </p:dataViewGridItem>
+			
+			            <p:dataViewListItem>
+			                <div class="product-list-item">
+			                
+			                	<p:commandLink action="#{homeController.verDetalleAlbum(artistaAlbumDTO)}">
+			                    	<p:graphicImage name="imagenes/albums/#{artistaAlbumDTO.artista.imagen}" style="width:100px; " />
+			                    </p:commandLink>
+			                    
+			                    <div class="product-list-detail">
+			                        <div class="product-name">#{artistaAlbumDTO.artista.nombre}</div>
+			                        <div class="product-description">#{product.description}</div>
+			                        <p:rating readonly="true" value="#{product.rating}"/>
+			                        <i class="pi pi-tag product-category-icon"/><span class="product-category">#{product.category}</span>
+			                    </div>
+			                    <div class="product-list-action">
+			                        <h:outputText value="#{product.price}" styleClass="product-price">
+			                            <f:convertNumber currencySymbol="$" type="currency"/>
+			                        </h:outputText>
+			                        <p:commandButton icon="pi pi-shopping-cart" action="#{homeController.agregarAlbumCarrito(artistaAlbumDTO)}" update="formDashboard:btnShop"></p:commandButton>
+			                        <span class="product-badge status-#{product.inventoryStatus.name().toLowerCase()}">#{product.inventoryStatus.text}</span>
+			                    </div>
+			                </div>
+			            </p:dataViewListItem>
+			            
+			        </p:dataView>
+      			</p:panel>
+      		</div>
+      	</div>	
+      	 	
+      </div>
+
+      
+</ui:composition>

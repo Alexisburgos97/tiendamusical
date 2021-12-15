@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+ 	  xmlns:p="http://primefaces.org/ui"
+ 	  xmlns:ui="http://java.sun.com/jsf/facelets"
+ 	  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      
+      
+      <h:head>
+      	<ui:include src="/pages/commons/scripts.xhtml"></ui:include>
+      </h:head>
+      
+      <h:body style="background-color: black">
+      	<div class="ui-fluid">
+      		<h:form id="formDashboard">
+      			
+      			<ui:include src="/pages/commons/navbar.xhtml"></ui:include>
+      		
+      			<div class="p-grid sample-layout">
+      			
+      			 	<ui:include src="/pages/commons/header.xhtml"></ui:include>
+      			 	
+      			 	<div class="p-col-12 p-md-10 p-col-nogutter">
+      			 		<div class="p-grid">
+      			 			<div class="p-col-12">
+      			 				
+      			 				<!-- PANTALLA HOME CLIENTE -->
+      			 				<c:if test="#{sessionBean.persona.rol.idRol == 2}">
+      			 					<ui:include src="/pages/cliente/home.xhtml"></ui:include>
+      			 				</c:if>
+      			 				
+      			 				<!-- PANTALLA HOME ADMINISTRADOR -->
+      			 				<c:if test="#{sessionBean.persona.rol.idRol == 1}">
+      			 					<ui:include src="/pages/admin/home.xhtml"></ui:include>
+      			 				</c:if>
+      			 				
+      			 			</div>
+      			 		</div>
+      			 	</div>
+      			 	
+					<ui:include src="/pages/commons/footer.xhtml"></ui:include>
+      			 	
+      			</div>
+      		</h:form>
+      	</div>
+      </h:body>
+      
+</html>

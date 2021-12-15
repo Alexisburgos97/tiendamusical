@@ -1,0 +1,21 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+ 	  xmlns:p="http://primefaces.org/ui"
+ 	  xmlns:ui="http://java.sun.com/jsf/facelets"
+ 	  xmlns:pe="http://primefaces.org/ui/extensions">
+      
+        <p:menubar id="menubar">
+            <f:facet name="options">
+            	<p:outputLabel value="Bienvenido #{sessionBean.persona.nombre}" style="color:black; font-weight:bold;"></p:outputLabel>
+            	 	<p:badge value="#{sessionBean.persona.carrito.carritoAlbum.size()}" rendered="#{sessionBean.persona.carrito.carritoAlbum.size() >= 0}" severity="danger" >
+         				<p:commandButton id="btnShop" icon="pi pi-shopping-cart" action="#{navBarController.redireccionar}" immediate="true" rendered="#{sessionBean.persona.rol.idRol == 2}" />
+     				</p:badge>
+            	
+				<p:commandButton id="btnCerrarSesion" action="#{sessionClosed.cerrarSesion}" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" immediate="true"></p:commandButton>
+            </f:facet>
+        </p:menubar>
+        <p:sticky target="menubar"></p:sticky>
+
+      
+</ui:composition>

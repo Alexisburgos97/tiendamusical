@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>tiendamusical</artifactId>
-    <groupId>com.devpredator</groupId>
+    <groupId>com.aburgos</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
@@ -25,9 +25,28 @@
     
     <dependency>
    		<artifactId>tiendamusical-data</artifactId>
-    	<groupId>com.devpredator</groupId>
+    	<groupId>com.aburgos</groupId>
     	<version>0.0.1-SNAPSHOT</version>
     </dependency>
+    
+    <dependency>
+   		<artifactId>checkout-sdk</artifactId>
+    	<groupId>com.paypal.sdk</groupId>
+    	<version>${paypal-checkout-version}</version>
+    </dependency>
+    
+    <dependency>
+   		<artifactId>json</artifactId>
+    	<groupId>org.json</groupId>
+    	<version>${json-version}</version>
+    </dependency>  
+    
+    <dependency>
+   		<artifactId>commons-lang3</artifactId>
+    	<groupId>org.apache.commons</groupId>
+    	<version>${commons-lang3-version}</version>
+    </dependency>
+    
   </dependencies>
 
   <build>

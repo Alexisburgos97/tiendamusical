@@ -4,6 +4,8 @@ body .ui-panelgrid .ui-panelgrid-cell {
 
 body .ui-panel .ui-panel-content {
 	background-color: black;
+	color: white;
+	font-weight:bold;
 }
 
 .colorText {

@@ -1,0 +1,187 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+ 	  xmlns:p="http://primefaces.org/ui"
+ 	  xmlns:ui="http://java.sun.com/jsf/facelets">
+      
+      
+      <h:head>
+      	<ui:include src="/pages/commons/scripts.xhtml"></ui:include>
+      	<style>
+      		body .ui-panelgrid .ui-panelgrid-cell{
+      			background-color: white;
+      		} 
+      	</style>
+      </h:head>
+      
+      <h:body style="background-color: black">
+      	<div class="ui-fluid">
+      		<h:form id="formAlbums">
+      		
+      			<ui:include src="/pages/commons/loading.xhtml"></ui:include>
+      		
+      			<p:growl id="messages" showSummary="true" showDetail="true" skipDetailIfEqualsSummary="true"></p:growl>
+      			
+      			<ui:include src="/pages/commons/navbar.xhtml"></ui:include>
+      		
+      			<div class="p-grid sample-layout">
+      			
+      			 	<ui:include src="/pages/commons/header.xhtml"></ui:include>
+      			 	
+      			 	<div class="p-col-12 p-md-10 p-col-nogutter">
+      			 		<div class="p-grid">
+      			 			<div class="p-col-12">
+      			 				<div class="p-grid">
+      			 					<div class="p-col-10" style="margin:0px auto;">
+      			 					
+      			 						<div class="p-col-2">
+		      			 					<p:commandButton value="Agregar"  onclick="PF('dlgAlbums').show()" action="#{adminAlbumsController.limpiarComponentes}" immediate="true" update="formUpdateAlbum:pnlAlbums" />
+		      			 				</div>
+      			 			
+		      			 				<p:dataTable id="tblAlbums" rows="20" paginator="true" emptyMessage="No se encontraron registros de albums.."
+		      			 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		                     				currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+		                     				rowsPerPageTemplate="20,50,100" var="album" value="#{adminAlbumsController.albums}" filteredValue="#{adminAlbumsController.albumsFiltrados}" paginatorPosition="bottom" >
+		      			 					
+		      			 					
+		      			 					<f:facet name="header"> Listado de Albums</f:facet>
+		      			 					
+		      			 					<p:column headerText="Imagen">
+		      			 					
+		      			 						<p:graphicImage name="imagenes/albums/#{album.imagen}" width="100%"></p:graphicImage>
+		      			 						
+		      			 					</p:column>
+		      			 					
+		      			 					<p:column headerText="Nombre" filterBy="#{album.nombre}" filterMatchMode="contains">
+		      			 					
+		      			 						<p:outputLabel value="#{album.nombre}"></p:outputLabel>
+		      			 						
+		      			 					</p:column>
+		      			 				
+		      			 					<p:column headerText="Artista" filterBy="#{album.artista.nombre}" filterMatchMode="contains">
+		      			 					
+		      			 						<p:outputLabel value="#{album.artista.nombre}"></p:outputLabel>
+		      			 						
+		      			 					</p:column>
+		      			 					
+		      			 					<p:column headerText="Año">
+		      			 					
+		      			 						<p:outputLabel value="#{album.anio}"></p:outputLabel>
+		      			 						
+		      			 					</p:column>
+		      			 					
+		      			 					<p:column headerText="Formato" filterBy="#{album.formato}" filterMatchMode="contains">
+		      			 					
+		      			 						<p:outputLabel value="#{album.formato}"></p:outputLabel>
+		      			 						
+		      			 					</p:column>
+		      			 					
+		      			 					<p:column headerText="Precio" filterBy="#{album.valor}" filterMatchMode="contains">
+		      			 					
+		      			 						<p:outputLabel value="#{album.valor}">
+		      			 							<f:convertNumber type="currency" currencyCode="ARS" currencySymbol="$" ></f:convertNumber>
+		      			 						</p:outputLabel>
+		      			 						
+		      			 					</p:column>
+		      			 					
+		      			 					<p:column headerText="Disquera">
+		      			 					
+		      			 						<p:outputLabel value="#{album.disquera.descripcion}"></p:outputLabel>
+		      			 						
+		      			 					</p:column>
+		      			 					 
+		      			 					<p:column headerText="Estatus" filterBy="#{album.estatus}" filterMatchMode="contains">
+		      			 					
+		      			 						<p:outputLabel value="Habilitado" rendered="#{album.estatus}"></p:outputLabel>
+		      			 						<p:outputLabel value="No habilitado" rendered="#{!album.estatus}"></p:outputLabel>
+		      			 						
+		      			 					</p:column>
+		      			 					
+		      			 					<p:column headerText="Actualizar">
+		      			 					
+		      			 						<p:commandButton  icon="pi pi-pencil" style="background-color:green;" immediate="true"
+		      			 										  action="#{adminAlbumsController.cargarAlbum(album)}" oncomplete="PF('dlgAlbums').show()" update="formUpdateAlbum:pnlAlbums" ></p:commandButton>
+		      			 						
+		      			 					</p:column>
+		      			 					
+		      			 				</p:dataTable>
+		      			 				
+		      			 				
+      			 				  		  
+      			 					</div>
+      			 				</div>
+      			 			</div>
+      			 		</div>
+      			 	</div>
+      			 	
+					<ui:include src="/pages/commons/footer.xhtml"></ui:include>
+      			 	
+      			</div>
+      		</h:form>
+      		
+      		<p:dialog header="Agregar album" id="dlgAlbum" widgetVar="dlgAlbums" showEffect="fade" modal="true" responsive="true" resizable="false" width="50%" height="500">
+      			<h:form id="formUpdateAlbum">
+      			
+											<p:panelGrid id="pnlAlbums" columns="1" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-g-12" >
+												
+												<p:outputLabel id="lblNombre" value="Nombre: " for="txtNombre" ></p:outputLabel>
+												<p:inputText id="txtNombre" required="true" requiredMessage="El nombre del album es requerido" value="#{adminAlbumsController.album.nombre}"></p:inputText>
+												
+												<p:outputLabel id="lblImagen" value="Imagen: " ></p:outputLabel>
+												<p:fileUpload mode="advanced" sizeLimit="102400" 
+													allowTypes="/(\.|\/)(gif|jpe?g|png)$/" invalidSizeMessage="Maximum file size allowed is 100 KB"
+	                      							invalidFileMessage="only gif | jpg | jpeg | png is allowed"  auto="true"
+                      								listener="#{adminAlbumsController.handleFileUpload}" dragDropSupport="true" label="Buscar" update="opTextImage" immediate="true" />
+                      							
+                      							<p:outputPanel id="opTextImage">
+                      								<p:outputLabel id="lblTextImage" value="Se ha cargado la imagen #{adminAlbumsController.uploadedFile.fileName}" rendered="#{adminAlbumsController.uploadedFile != null}"></p:outputLabel>
+                      							</p:outputPanel>
+                      							
+                      							<p:outputLabel id="lblDescripcion" value="Descripcion: " for="txtDescripcion" ></p:outputLabel>
+												<p:inputTextarea id="txtDescripcion" required="true" requiredMessage="La descripcion del album es requerida" value="#{adminAlbumsController.album.descripcion}"></p:inputTextarea>
+                      							
+                      							<p:outputLabel id="lblAnio" value="Año: " for="txtAnio"  ></p:outputLabel>
+												<p:inputText id="txtAnio" required="true" requiredMessage="El Año del album es requerido" value="#{adminAlbumsController.album.anio}" ></p:inputText>
+												
+												<p:outputLabel id="lblFormato" value="Formato: " for="txtFormato" ></p:outputLabel>
+												<p:inputText id="txtFormato" required="true" requiredMessage="El formato del album es requerido" value="#{adminAlbumsController.album.formato}"></p:inputText>
+												
+												<p:outputLabel id="lblPrecio" value="Precio: " for="txtPrecio" ></p:outputLabel>
+												<p:inputText id="txtPrecio" required="true" requiredMessage="El precio del album es requerido" value="#{adminAlbumsController.album.valor}"></p:inputText>
+												
+												<p:outputLabel id="lblDisquera" value="Disquera: " for="cboDisquera" ></p:outputLabel>
+												<p:selectOneMenu id="cboDisquera" required="true" requiredMessage="La disquera es requerida" value="#{adminAlbumsController.album.disquera.idDisquera}">
+												
+													<f:selectItem itemValue="" itemLabel="Seleccione"></f:selectItem>
+													<f:selectItems var="disquera" value="#{adminAlbumsController.disqueras}" 
+																	itemValue="#{disquera.idDisquera}" itemLabel="#{disquera.descripcion}"></f:selectItems>
+																	
+												</p:selectOneMenu>
+												
+												<p:outputLabel id="lblArtista" value="Artista: " for="cboArtista" ></p:outputLabel>
+												<p:selectOneMenu id="cboArtista" required="true" requiredMessage="El artista es requerido" value="#{adminAlbumsController.album.artista.idArtista}">
+												
+													<f:selectItem itemValue="" itemLabel="Seleccione"></f:selectItem>
+													<f:selectItems var="artista" value="#{adminAlbumsController.artistas}" 
+																	itemValue="#{artista.idArtista}" itemLabel="#{artista.nombre}"></f:selectItems>
+																	
+												</p:selectOneMenu>
+												
+												<p:outputLabel id="lblEstatus" value="Estatus: " rendered="#{adminAlbumsController.album.idAlbum != null}" ></p:outputLabel>
+												<p:inputSwitch id="inputEstatus" value="#{adminAlbumsController.album.estatus}" rendered="#{adminAlbumsController.album.idAlbum != null}" ></p:inputSwitch>
+												
+											</p:panelGrid>
+											
+											<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-g-6,ui-g-6" >
+												<p:commandButton value="Guardar" action="#{adminAlbumsController.guardarAlbum}" update="formAlbums:messages, formUpdateAlbum:pnlAlbums, formAlbums:tblAlbums"></p:commandButton>
+												<p:commandButton value="Cancelar" style="background-color:red;" onclick="PF('dlgAlbums').hide()"></p:commandButton>
+											</p:panelGrid>
+											
+											<!-- <p:ajax event="close" update="dlgAlbum" resetValues="true"></p:ajax> -->
+				
+      			</h:form>
+      		</p:dialog>
+      	</div>
+      </h:body>
+
+</html>

@@ -1,0 +1,115 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+ 	  xmlns:p="http://primefaces.org/ui"
+ 	  xmlns:ui="http://java.sun.com/jsf/facelets">
+      
+      
+      <h:head>
+      	<ui:include src="/pages/commons/scripts.xhtml"></ui:include>
+      </h:head>
+      
+      <h:body style="background-color: black">
+      	<div class="ui-fluid">
+      		<h:form id="formCarrito">
+      			
+      			<ui:include src="/pages/commons/navbar.xhtml"></ui:include>
+      		
+      			<div class="p-grid sample-layout">
+      			
+      			 	<ui:include src="/pages/commons/header.xhtml"></ui:include>
+      			 	
+      			 	<div class="p-col-12 p-md-10 p-col-nogutter">
+      			 		<div class="p-grid">
+      			 			<div class="p-col-12">
+      			 			
+      			 				<ui:include src="/pages/commons/steps.xhtml"></ui:include>
+      			 			
+      			 				<div class="p-col" style="width:90%; margin: 0px auto;">
+      			 			
+      			 					<p:dataView  id="dataViewDetalleCarrito" rowIndexVar="inder" var="carritoAlb" value="#{sessionBean.persona.carrito.carritoAlbum}" listIcon="pi pi-bars">
+
+							            <p:dataViewListItem>
+							            
+							                <p:panelGrid columns="5" columnClasses="ui-g-12 ui-md-2, ui-g-12 ui-md-4, ui-g-12 ui-md-2, ui-g-12 ui-md-2 ,ui-g-12 ui-md-2 " layout="grid" styleClass="logo,detail" style="width:100%; border:none; text-align:center">
+							                
+							                	<p:graphicImage name="imagenes/albums/#{carritoAlb.album.artista.imagen}" style="width:100px; " />
+							                    
+							                    <p:outputPanel>
+							                    	<h:panelGrid columns="2" cellpadding="5">
+							                    	
+							                    		<h:outputText value="Titulo: " style="color:white; font-weight:bold;" />
+									                    <h:outputText value="#{carritoAlb.album.nombre}" style="color:white; font-weight:bold;" /> 
+									                    
+									                    <h:outputText value="Artista: " style="color:white; font-weight:bold;"  />
+									                    <h:outputText value="#{carritoAlb.album.artista.nombre}" style="color:white; font-weight:bold;" /> 
+									                    
+									                    <h:outputText value="Disquera: "  style="color:white; font-weight:bold;" />
+									                    <h:outputText value="#{carritoAlb.album.disquera.descripcion}" style="color:white; font-weight:bold;" /> 
+									                     
+									                    <h:outputText value="#{carritoAlb.album.valor}" styleClass="product-price" style="color:white; font-weight:bold;" >
+									                      <f:convertNumber currencySymbol="$" currencyCode="ARS"  type="currency" style="color:white; font-weight:bold;" />
+									                    </h:outputText>
+									                    
+									            	</h:panelGrid>
+							                    </p:outputPanel>
+							                    
+							                    <p:selectOneMenu value="#{carritoAlb.cantidad}">
+		      			 							<f:selectItem itemValue="1" itemLabel="1" ></f:selectItem>
+		      			 							<f:selectItem itemValue="2" itemLabel="2" ></f:selectItem>
+		      			 							<f:selectItem itemValue="3" itemLabel="3" ></f:selectItem>
+		      			 							<f:selectItem itemValue="4" itemLabel="4" ></f:selectItem>
+		      			 							<f:selectItem itemValue="5" itemLabel="5" ></f:selectItem>
+		      			 							
+		      			 							<p:ajax event="change" listener="#{carritoController.actualizarCantidadAlbum(carritoAlb)}" update="formCarrito:pnlTotalCompra, formCarrito:dataViewDetalleCarrito"></p:ajax>
+		      			 							
+	      			 							</p:selectOneMenu>
+	      			 							
+	      			 							<p:commandButton icon="pi pi-trash" style="background-color:red; border:none;" action="#{carritoController.eliminarAlbumCarrito(carritoAlb)}" update="formCarrito:menubar, formCarrito:dataViewDetalleCarrito, formCarrito:pnlTotalCompra, formCarrito:pnlBotonContinuar">
+	      			 								<p:confirm header="Confirmacion" message="¿Estás seguro de eliminar el producto #{carritoAlb.album.nombre}?" icon="pi pi-info-circle"/>
+	      			 							</p:commandButton>
+							                    
+							                    <p:outputLabel value="#{carritoAlb.album.valor * carritoAlb.cantidad}" style="color:white; font-weight:bold;">
+							                    	<f:convertNumber currencySymbol="$" currencyCode="ARS"  type="currency" style="color:white; font-weight:bold;" />
+							                    </p:outputLabel>
+							                    
+							                </p:panelGrid>
+							            </p:dataViewListItem>
+							            
+							        </p:dataView>
+							        
+							        <p:panelGrid id="pnlTotalCompra" columns="5" columnClasses="ui-g-12 ui-md-2, ui-g-12 ui-md-4, ui-g-12 ui-md-2, ui-g-12 ui-md-2 ,ui-g-12 ui-md-2 " layout="grid" styleClass="logo,detail" style="width:100%; border:none; text-align:center">
+							        	<p:outputLabel></p:outputLabel>
+							        	<p:outputLabel></p:outputLabel>
+							        	<p:outputLabel></p:outputLabel>
+							        	<p:outputLabel value="Total: " style="color:white; font-weight:bold;"></p:outputLabel>
+							        	<p:outputLabel value="#{carritoController.sessionBean.totalCompra}" style="color:white; font-weight:bold;"></p:outputLabel>
+							        </p:panelGrid>
+							        
+							        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+							            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+							            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" />
+							        </p:confirmDialog>
+							        
+							        <p:panelGrid id="pnlBotonContinuar" columns="5" columnClasses="ui-g-12 ui-md-2, ui-g-12 ui-md-4, ui-g-12 ui-md-2, ui-g-12 ui-md-2 ,ui-g-12 ui-md-2 " layout="grid" styleClass="logo,detail" style="width:100%; border:none; text-align:center">
+							        	<p:outputLabel></p:outputLabel>
+							        	<p:outputLabel></p:outputLabel>
+							        	<p:outputLabel></p:outputLabel>
+							        	<p:outputLabel></p:outputLabel>
+							        	<p:commandButton value="Continuar" action="#{pasosController.cambiarPaso('/pages/cliente/pago.xhtml',1)}" style="margin-top:40px; width:100%;" disabled="#{empty sessionBean.persona.carrito.carritoAlbum}"></p:commandButton>
+							        </p:panelGrid>
+      			 				      			 				  
+      			 				</div>
+      			 				      			 				  
+      			 			</div>
+      			 		</div>
+      			 	</div>
+      			 	
+					<ui:include src="/pages/commons/footer.xhtml"></ui:include>
+      			 	
+      			</div>
+      		</h:form>
+      	</div>
+      </h:body>
+
+</html>

@@ -1,0 +1,115 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+ 	  xmlns:p="http://primefaces.org/ui"
+ 	  xmlns:ui="http://java.sun.com/jsf/facelets">
+      
+      
+      <h:head>
+      	<ui:include src="/pages/commons/scripts.xhtml"></ui:include>
+      	<style>
+      		body .ui-panelgrid .ui-panelgrid-cell{
+      			background-color: white;
+      		} 
+      	</style>
+      </h:head>
+      
+      <h:body style="background-color: black">
+      	<div class="ui-fluid">
+      		<h:form id="formPerfiles">
+      		
+      			<ui:include src="/pages/commons/loading.xhtml"></ui:include>
+      			
+      			<p:growl id="messages" showSummary="true" showDetail="true" skipDetailIfEqualsSummary="true"></p:growl>
+      			
+      			<ui:include src="/pages/commons/navbar.xhtml"></ui:include>
+      		
+      			<div class="p-grid sample-layout">
+      			
+      			 	<ui:include src="/pages/commons/header.xhtml"></ui:include>
+      			 	
+      			 	<div class="p-col-12 p-md-10 p-col-nogutter">
+      			 		<div class="p-grid">
+      			 			<div class="p-col-12">
+      			 				<div class="p-grid">
+      			 					<div class="p-col-10" style="margin:0px auto;">
+      			 					
+      			 						<div class="p-col-2">
+		      			 					<p:commandButton value="Agregar"  onclick="PF('dlgPerfiles').show()" action="#{adminPerfilesController.limpiarComponentes}" immediate="true" update="formUpdatePerfil:pnlPerfiles" />
+		      			 				</div>
+      			 			
+		      			 				<p:dataTable id="tblPerfiles" rows="20" paginator="true" emptyMessage="No se encontraron registros de perfiles.."
+		      			 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		                     				currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+		                     				rowsPerPageTemplate="20,50,100" var="perfil" value="#{adminPerfilesController.perfiles}" filteredValue="#{adminPerfilesController.perfilesFiltrados}" paginatorPosition="bottom" >
+		      			 					
+		      			 					
+		      			 					<f:facet name="header"> Listado de Perfiles </f:facet>
+		      			 					
+		      			 					<p:column headerText="Nombre" filterBy="#{perfil.nombre}" filterMatchMode="contains">
+		      			 					
+		      			 						<p:outputLabel value="#{perfil.nombre}"></p:outputLabel>
+		      			 						
+		      			 					</p:column>
+		      			 					
+		      			 					<p:column headerText="Fecha de creación" >
+		      			 					
+		      			 						<p:outputLabel value="#{perfil.fechaCreacion}" converter="localDateTimeConverter"></p:outputLabel>
+		      			 						
+		      			 					</p:column>
+		      			 					 
+		      			 					<p:column headerText="Estatus" filterBy="#{perfil.estatus}" filterMatchMode="exact" >
+		      			 					
+		      			 						<p:outputLabel value="Habilitado" rendered="#{perfil.estatus}"></p:outputLabel>
+		      			 						<p:outputLabel value="No habilitado" rendered="#{!perfil.estatus}"></p:outputLabel>
+		      			 						
+		      			 					</p:column>
+		      			 					
+		      			 					<p:column headerText="Actualizar">
+		      			 					
+		      			 						<p:commandButton  icon="pi pi-pencil" style="background-color:green;" immediate="true"
+		      			 										  action="#{adminPerfilesController.cargarPerfil(perfil)}"  oncomplete="PF('dlgPerfiles').show()" update="formUpdatePerfil:pnlPerfiles" ></p:commandButton>
+		      			 						
+		      			 					</p:column>
+		      			 					
+		      			 				</p:dataTable>
+		      			 				
+		      			 				
+      			 				  		  
+      			 					</div>
+      			 				</div>
+      			 			</div>
+      			 		</div>
+      			 	</div>
+      			 	
+					<ui:include src="/pages/commons/footer.xhtml"></ui:include>
+      			 	
+      			</div>
+      		</h:form>
+      		
+      		<p:dialog header="Agregar Perfil" id="dlgPerfil" widgetVar="dlgPerfiles" showEffect="fade" modal="true" responsive="true" resizable="false" width="50%" >
+      			<h:form id="formUpdatePerfil">
+      			
+											<p:panelGrid id="pnlPerfiles" columns="1" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-g-12" >
+												
+												<p:outputLabel id="lblNombre" value="Nombre: " for="txtNombre" ></p:outputLabel>
+												<p:inputText id="txtNombre" required="true" requiredMessage="El nombre del perfil es requerido" value="#{adminPerfilesController.perfil.nombre}"></p:inputText>
+												
+												<p:outputLabel id="lblEstatus" value="Estatus: " rendered="#{adminPerfilesController.perfil.idRol != null}" ></p:outputLabel>
+												<p:inputSwitch id="inputEstatus" value="#{adminPerfilesController.perfil.estatus}" rendered="#{adminPerfilesController.perfil.idRol != null}" ></p:inputSwitch>
+												
+											</p:panelGrid>
+											
+											<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-g-6,ui-g-6" >
+												<p:commandButton value="Guardar" action="#{adminPerfilesController.guardarPerfil}"  update="formPerfiles:messages, formUpdatePerfil:pnlPerfiles, formPerfiles:tblPerfiles"></p:commandButton>
+												<p:commandButton value="Cancelar" style="background-color:red;" onclick="PF('dlgPerfiles').hide()"></p:commandButton>
+											</p:panelGrid>
+											
+											<!-- <p:ajax event="close" update="dlgAlbum" resetValues="true"></p:ajax> -->
+				
+      			</h:form>
+      		</p:dialog>
+      	</div>
+      </h:body>
+
+</html>

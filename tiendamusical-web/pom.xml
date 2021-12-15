@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>tiendamusical</artifactId>
-    <groupId>com.devpredator</groupId>
+    <groupId>com.aburgos</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
@@ -26,7 +26,7 @@
     
     <dependency>
    		<artifactId>tiendamusical-services</artifactId>
-    	<groupId>com.devpredator</groupId>
+    	<groupId>com.aburgos</groupId>
     	<version>0.0.1-SNAPSHOT</version>
     </dependency>
     
@@ -63,6 +63,32 @@
 		<artifactId>primefaces</artifactId>
 		<version>${primefaces-version}</version>
 	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.primefaces.extensions/primefaces-extensions -->
+	<dependency>
+	    <groupId>org.primefaces.extensions</groupId>
+	    <artifactId>primefaces-extensions</artifactId>
+	    <version>${primefaces-extensions-version}</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+	<dependency>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>javax.servlet-api</artifactId>
+	    <version>${servlet-api-version}</version>
+	    <scope>provided</scope>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+	<dependency>
+	    <groupId>com.google.code.gson</groupId>
+	    <artifactId>gson</artifactId>
+	    <version>${gson-version}</version>
+	</dependency>
+	
+	
+	
+	
   </dependencies>
 
   <build>

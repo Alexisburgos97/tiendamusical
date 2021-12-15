@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+ 	  xmlns:p="http://primefaces.org/ui"
+ 	  xmlns:ui="http://java.sun.com/jsf/facelets">
+      
+			<p:panelMenu style="width:100%">
+		
+	            <p:submenu label="Mi perfil" rendered="true" expanded="true">
+	                <p:menuitem value="Información General" icon="pi pi-user-edit" action="#{pagesController.redireccionarPagina('/pages/cliente/infopersonal.xhtml')}" immediate="true" rendered="#{sessionBean.persona.rol.idRol == 2}"/>
+	                <p:menuitem value="Mis Compras" icon="pi pi-shopping-cart" action="#{pagesController.redireccionarPagina('/pages/cliente/miscompras.xhtml')}" immediate="true" rendered="#{sessionBean.persona.rol.idRol == 2}" />
+	                <p:menuitem value="Albums" icon="pi pi-volume-up"  action="#{pagesController.redireccionarPagina('/pages/admin/albums.xhtml')}" immediate="true" rendered="#{sessionBean.persona.rol.idRol == 1}"></p:menuitem>
+	                <p:menuitem value="Artistas" icon="pi pi-users"  action="#{pagesController.redireccionarPagina('/pages/admin/artistas.xhtml')}" immediate="true" rendered="#{sessionBean.persona.rol.idRol == 1}"></p:menuitem>
+	                <p:menuitem value="Perfiles" icon="pi pi-lock" action="#{pagesController.redireccionarPagina('/pages/admin/perfiles.xhtml')}" immediate="true" rendered="#{sessionBean.persona.rol.idRol == 1}"></p:menuitem>
+	            </p:submenu>
+	            
+	            <p:submenu label="Administación" rendered="false">
+	                <p:menuitem value="Delete" ajax="false" icon="pi pi-times"/>
+	            </p:submenu>
+	            
+        	</p:panelMenu>
+      
+</ui:composition>
